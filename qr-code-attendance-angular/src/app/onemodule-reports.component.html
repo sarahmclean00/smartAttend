@@ -1,0 +1,66 @@
+<div class="animated fadeIn" *ngFor="let module of module | async">
+    
+    <!-- <div class="row py-2 mb-1">
+        <div class="col-sm-12">
+          <h5 style="font-size: 18px;">{{module.module_name}} Attendance Report</h5>
+        </div>
+    </div> -->
+
+    <div class="row">
+         <!-- Column -->
+    <div class="col-sm-12 col-lg-6">
+        <div class="card text-white bg-primary">
+          <div class="card-body p-0 clearfix">
+            <div class="h4 text-white p-3 font-5xl my-2 float-left">{{module.attendance_percentage}}%</div>
+            <div class="text-white text-uppercase mt-3 mb-2" style="font-size: 16px;">{{module.attendance_count}}  Students Attended</div>
+            <div class="progress progress-success progress-xs mb-2 mr-4">
+              <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" aria-valuenow="{{module.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted" style="font-size: 12px;">{{module.code}} | {{module.module_name}}</small>
+          </div>
+        </div>
+      </div>
+      <!-- Column -->
+    </div>
+
+
+    <!--/.row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Full Attendance Report
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>B Number</th>
+                <th>Module Date</th>
+                <th>Time In</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let student of attendance | async">
+              <tr>
+                <td>{{student.b_num}}</td>
+                <td>{{module.date}}</td>
+                <td>{{student.time_in}}</td>
+                <td>
+                  <span class="badge badge-success py-2 px-2 align-items-center">Signed In</span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger py-0 px-2" (click)="deleteAttendanceUser(student.b_num)">
+                    <i class="fa fa-trash"></i> 
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,143 @@
+<div class="animated fadeIn">
+<ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+
+  <div *ngIf="exists == false" class="alert alert-danger">
+      <strong>Note!</strong> Please complete your profile details.
+  </div>
+
+<ng-container *ngIf = "authService.isAuthenticated$ | async;">    
+<div class="row">
+  <div class="col-sm-12 col-lg-6" *ngIf = "authService.user$ | async as user">
+    <div class="card" style="height:400px;">
+      <div class="card-header" style="height: 60px;">
+        <p class="mt-2" style="font-size: 14px;">Student ID Card</p>
+      </div>
+      <div class="text-center card-box">
+        <div class="member-card pt-1 pb-1">
+            <div class="thumb-lg member-thumb mx-auto">
+              <a href="{{userDetails.qr_code}}" download><img src="{{userDetails.qr_code}}" class="rounded-circle" 
+              alt="profile-image" height="200"></a>
+            </div>
+            <div class="">
+                <h5>{{user.name}}</h5>
+                <p class="text-muted">{{userDetails.access}} <span>| </span><span><a href="{{user.email}}" class="text-pink">{{user.email}}</a></span></p>
+            </div>
+            <!-- <button type="button" class="btn btn-primary mt-1 btn-rounded waves-effect w-md waves-light">Message Now</button> -->
+            <div class="mt-1">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-4">
+                        <div class="mt-1">
+                            <h6>{{userDetails.course_code}}</h6>
+                            <p class="mb-0 text-muted">Course Code</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        <div class="mt-1">
+                            <h6>{{userDetails.id_num}}</h6>
+                            <p class="mb-0 text-muted">ID Value</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="mt-1">
+                          <h6>{{userDetails.course_year}}</h6>
+                          <p class="mb-0 text-muted">Course Year</p>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-lg-6" *ngIf = "authService.user$ | async as user">
+      <div class="card" style="height:400px;">
+        <div class="card-header" style="height: 60px;">
+          <p class="mt-2" style="font-size: 14px;">Profile Details</p>
+        </div>
+        <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+        <div class="card-body" style="height:200px;">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 125px;"><i class="fa fa-user"></i>&nbsp;&nbsp;Name</span>
+                </div>
+                <input type="text" id="name" name="name" class="form-control" formControlName="name"  readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 125px;"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Email</span>
+                </div>
+                <input type="email" id="email" name="email" class="form-control" formControlName="email" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 125px;"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Course Year</span>
+                </div>
+                <select id="course_year" name="course_year" class="form-control" formControlName="course_year" >
+                  <option value="0">Please Select</option>
+                  <option value="Year 1">Year 1</option>
+                  <option value="Year 2">Year 2</option>
+                  <option value="Year 3">Year 3</option>
+                  <option value="Year 4">Year 4</option>
+                  <option value="Year 5">Year 5</option>
+                  <option value="Year 6">Year 6</option>
+              </select>            
+            </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 125px;"><i class="fa fa-list"></i>&nbsp;&nbsp;Course Code</span>
+                </div>
+                <select id="course_code" name="course_code" class="form-control" formControlName="course_code" >
+                  <option value="0">Please Select</option>
+                  <option value="V273">V273</option>
+                  <option value="C437">C437</option>
+                  <option value="U808">U808</option>
+                  <option value="J204">J204</option>
+                  <option value="W756">W756</option>
+                  <option value="N341">N341</option>
+                  <option value="E120">E120</option>
+                  <option value="C730">C730</option>
+                  <option value="B909">B909</option>
+                  <option value="Z382">Z382</option>
+                  <option value="C249">C249</option>
+                  <option value="V438">V438</option>
+                  <option value="K232">K232</option>
+                  <option value="W270">W270</option>
+                  <option value="R118">R118</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 125px;"><i class="fa fa-lock"></i>&nbsp;&nbsp;ID Number</span>
+                </div>
+                <textarea id="id_num" name="id_num" class="form-control" rows="1" formControlName="id_num">
+                </textarea> 
+              </div>
+            </div>
+            <div class="form-group form-actions">
+            </div>
+            <button type="submit" class="btn btn-primary text-white" style="width: 125px;">Submit</button>
+        </div>
+      </form>
+      </div>
+  </div>
+</div>
+</ng-container>
+
+</ng-container>
+  
+<ng-template #loggedOut>
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Attention!</strong> You must be logged in to access this application.
+  </div>
+</ng-template> 
+
+</div>

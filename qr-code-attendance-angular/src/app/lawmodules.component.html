@@ -1,0 +1,34 @@
+<div class="animated fadeIn" *ngIf = "authService.user$ | async as user">
+
+  <div class="alert alert-info">  
+    <strong>Note!</strong> Please add your modules to your account using the save button.
+  </div>
+
+  <!-- Row -->
+  <div class="row">
+  <!-- Column -->
+  <div class="col-sm-12 col-lg-4" *ngFor = "let module of  module_list | async">
+    <div class="card bg-primary text-white">
+      <div class="card-body p-0 clearfix">
+        <div class="btn-group float-right my-2 mr-2" dropdown>
+          <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+            <i class="icon-settings"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+            <a class="dropdown-item" (click) = "onClickSave (module.module_name, module.school, module.code, module.length, 
+            module.date, module.time, module.room, module.student_enrolled, module.attendance_count, 
+            module.attendance, user.name, user.email)" style="cursor: pointer">Save</a>
+            <a class="dropdown-item" [routerLink]="['/modules', module._id]" style="cursor: pointer">View More Details</a>
+          </div>
+        </div>
+        <i class="fa fa-cog bg-primary p-4 text-muted font-3xl mt-3 mr-1 float-left"></i>
+        <div class="h5 text-white mb-2 pt-4" style="font-size: 19px;">{{module.code}}</div>
+        <div class="text-muted text-uppercase mt-2 mb-4" style="font-size: 12px; height: 30px;">{{module.module_name}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- Column -->
+  </div>
+  <!-- Row -->
+</div>
+   

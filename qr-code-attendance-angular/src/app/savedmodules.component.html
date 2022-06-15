@@ -1,0 +1,62 @@
+<div class="animated fadeIn">
+
+<ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+  
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Note!</strong> Please complete your profile details <a href="/#/profile"><strong>here</strong> </a>.
+  </div>
+
+  <div *ngIf="exists == true">
+
+    <!-- Row -->
+    <div class="row" *ngIf = "authService.user$ | async as user">
+      <!-- Column -->
+      <div class="col-sm-12 col-lg-6" *ngFor = "let module of modules_list | async">
+        <div class="card text-white bg-primary">
+          <div class="card-body p-0 clearfix">
+            <div class="btn-group float-right my-2 mr-2" dropdown>
+              <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                <i class="icon-settings"></i>
+              </button>
+              <div class="student" *ngIf = "userDetails.access === 'Student'"> 
+              <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                <a class="dropdown-item" [routerLink]="['/saved_modules', module._id]" style="cursor: pointer">View All Details</a>
+              </div>
+              </div>
+              <div class="admin" *ngIf = "userDetails.access === 'Admin'"> 
+                <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                  <a class="dropdown-item" [routerLink]="['/saved_modules', module._id]" style="cursor: pointer">Details / Attendance</a>
+                </div>
+                </div>
+            </div>
+            <div class="btn-group float-right my-2 mr-2">
+              <button type="button" class="btn btn-transparent p-0" (click)="deleteModule(module._id, userDetails._id)">
+                <i class="fa fa-trash-o"></i> 
+              </button>
+            </div>
+            <i class="fa fa-bar-chart bg-primary text-muted p-4 font-5xl my-3 float-left"></i>
+            <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{module.code}}</div>
+            <div class="text-white text-uppercase mb-2" style="font-size: 12px;">{{module.module_name}}</div>
+            <div class="progress progress-white progress-xs mb-2 mr-4">
+              <div class="progress-bar bg-white" role="progressbar" style="width: 25%;" aria-valuenow="{{module.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">Room: {{module.room}} | Date: {{module.date}}</small>
+          </div>
+        </div>
+      </div>
+      <!-- Column -->
+      </div>
+      <!-- Row -->
+
+  </div>
+
+</ng-container>
+  
+<ng-template #loggedOut>
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Attention!</strong> You must be logged in to access this application.
+  </div>
+</ng-template> 
+      
+</div>
+     

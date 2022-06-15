@@ -1,0 +1,116 @@
+<div class="animated fadeIn">
+  <ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+
+  
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Note!</strong> Please complete your profile details <a href="/#/profile"><strong>here</strong> </a>.
+  </div>
+
+  <div *ngIf="exists == true">
+    <div *ngIf = "authService.user$ | async as user">
+      <div class="admin" *ngIf = "userDetails.access === 'Admin'"> 
+
+        <div class="row">
+          <div class="col-sm-12 col-lg-12" *ngIf = "authService.user$ | async as user">
+            <div class="card">
+              <div class="card-body p-0 clearfix my-4">
+                <div class="h4 text-success p-3 font-5xl my-2 mx-3 float-left">{{userDetails.average_attendance}}%</div>
+                <div class="text-success text-uppercase my-3" style="font-size: 19px;">Average Attendance for your Sessions</div>
+                <div class="progress progress-success progress-xs my-3 mr-4">
+                  <div class="progress-bar bg-success" role="progressbar" 
+                  style="width: 100%;" aria-valuenow="100" 
+                  aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted my-3" style="font-size: 16px;">{{userDetails.access}} | Modules: {{userDetails.module_count}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!-- Row -->
+          <div class="row">
+          <!-- Column -->
+          <div class="col-sm-12 col-lg-6" *ngFor = "let savedmodule of saved_modules_list | async">
+            <div class="card text-white bg-success">
+              <div class="card-body p-0 clearfix">
+                <div class="btn-group text-white float-right my-2 mr-2">
+                  <button type="button" class="btn btn-transparent">
+                    <i class="icon-settings" [routerLink]="['/reports', savedmodule._id]"></i>
+                  </button>
+                </div>
+                <i class="fa fa-bar-chart bg-success text-muted p-4 font-5xl my-3 float-left"></i>
+                <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{savedmodule.attendance_percentage}}% </div>
+                <div class="text-white text-uppercase mb-2" style="font-size: 12px;">Attendance Reported</div>
+                <div class="progress progress-white progress-xs mb-2 mr-4">
+                  <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" aria-valuenow="{{savedmodule.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted" style="font-size: 12px;">{{savedmodule.code}} | {{savedmodule.module_name}}</small>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+          </div>
+          <!-- Row -->
+      </div>
+      
+      <div class="student" *ngIf = "userDetails.access === 'Student'"> 
+        <div class="row">
+          <div class="col-sm-12">
+          <button class="btn btn-success shadow-sm text-end float-right" [routerLink]="['/saved_modules']">
+          <i class="fa fa-book"></i>&nbsp; Modules
+          </button>
+          <h3 class="py-2">Attendance Report</h3>
+          </div>
+        </div>
+            
+        <div class="row">
+          <div class="col-sm-12 col-lg-12" *ngIf = "authService.user$ | async as user">
+            <div class="card">
+              <div class="card-body p-0 clearfix my-4">
+                <div class="h4 text-success p-3 font-5xl my-2 mx-3 float-left">{{userDetails.attendance_percentage}}%</div>
+                <div class="text-success text-uppercase my-3" style="font-size: 19px;">Your Live Attendance</div>
+                <div class="progress progress-success progress-xs my-3 mr-4">
+                  <div class="progress-bar bg-success" role="progressbar" 
+                  style="width: 100%;" aria-valuenow="100" 
+                  aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted my-3" style="font-size: 16px;">Modules: {{userDetails.module_count}} | Attended: {{userDetails.attendance_count}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row">
+          <!-- Column -->
+          <div class="col-sm-12 col-lg-6" *ngFor = "let attendedmodule of attended_modules_list | async">
+            <div class="card text-white bg-success">
+              <div class="card-body p-0 clearfix">
+                <i class="fa fa-bar-chart bg-success text-muted p-4 font-5xl my-3 float-left"></i>
+                <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{attendedmodule.code}}</div>
+                <div class="text-white text-uppercase mb-2" style="font-size: 12px;">Attended On {{attendedmodule.date}}</div>
+                <div class="progress progress-white progress-xs mb-2 mr-4">
+                  <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted" style="font-size: 12px;">{{attendedmodule.module_name}} | {{attendedmodule.school}}</small>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+        </div>
+        <!-- Row -->
+
+      </div>
+        
+    </div>
+  </div>
+
+</ng-container>
+  
+<ng-template #loggedOut>
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Attention!</strong> You must be logged in to access this application.
+  </div>
+</ng-template> 
+
+</div>
+     

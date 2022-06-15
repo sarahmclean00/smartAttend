@@ -1,0 +1,266 @@
+<div class="animated fadeIn">
+  <ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Note!</strong> Please complete your profile details <a href="/#/profile"><strong>here</strong> </a>.
+  </div>
+
+  <div *ngIf="exists == true">
+
+    <div *ngIf = "authService.user$ | async as user">
+
+      <div class="admin" *ngIf = "userDetails.access === 'Admin'">
+        <div class="alert alert-info">  
+          <strong>Note!</strong> Please add your modules to your account using the save button.
+          Add new module using the 'Add Module' button.
+        </div>
+      </div>
+
+      <div class="student" *ngIf = "userDetails.access === 'Student'">
+        <div class="alert alert-info">  
+          <strong>Note!</strong> Please add your modules to your account using the save button.
+        </div>
+      </div>
+    
+    
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-balance-scale"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Law</div>
+              <div [routerLink]="['/modules/law']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-thermometer-2"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Biological and Behavioural Sciences</div>
+              <div [routerLink]="['/modules/biological']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-bar-chart"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Business and Management</div>
+              <div [routerLink]="['/modules/business']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Economics and Finance</div>
+              <div [routerLink]="['/modules/economics']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-qrcode"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value" style="font-size: 18px;">School of Electronic Engineering and Computer Science</div>
+              <div [routerLink]="['/modules/computers']" class="text-uppercase text-muted small  mb-2" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-sitemap"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Engineering and Materials Science</div>
+              <div [routerLink]="['/modules/engineering']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-book"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of English and Drama</div>
+              <div [routerLink]="['/modules/english']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-sm-12 col-lg-6">
+        <div class="brand-card">
+          <div class="brand-card-header bg-primary">
+            <i class="fa fa-language"></i>
+          </div>
+          <div class="brand-card-body my-2" style="height: 100px;">
+            <div>
+              <div class="text-value py-2" style="font-size: 18px;">School of Film</div>
+              <div [routerLink]="['/modules/languages']" class="text-uppercase text-muted small" style="cursor: pointer;">view all modules</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
+    <div class="admin" *ngIf = "userDetails.access === 'Admin'">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-edit"></i>Add New Module
+              <div class="card-header-actions">
+                <button type="button" class="card-header-action btn btn-link btn-minimize"(click)="toggleCollapse()">
+                  <i class={{iconCollapse}}></i>
+                </button>
+              </div>
+            </div>
+            <div (collapsed)="collapsed($event)"
+                  (expanded)="expanded($event)"
+                  [collapse]="isCollapsed"
+                    class="card-body">
+              <form [formGroup]="moduleForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input type="text" id="module_name" name="module_name" class="form-control" 
+                    formControlName="module_name" placeholder="Module Name"
+                    [ngClass]="{'error': isInvalid('module_name')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    </div>
+                    <input type="text" id="school" name="school" class="form-control" 
+                    formControlName="school" placeholder="School"
+                    [ngClass]="{'error': isInvalid('school')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="text" id="code" name="code" class="form-control" 
+                    formControlName="code" placeholder="Module Code"
+                    [ngClass]="{'error': isInvalid('code')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="text" id="length" name="length" class="form-control" 
+                    formControlName="length" placeholder="Module Length"
+                    [ngClass]="{'error': isInvalid('length')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="date" id="date" name="date" class="form-control" 
+                    formControlName="date" placeholder="Module Date"
+                    [ngClass]="{'error': isInvalid('date')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="time" id="time" name="time" class="form-control" 
+                    formControlName="time" placeholder="Module Time"
+                    [ngClass]="{'error': isInvalid('time')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="text" id="room" name="room" class="form-control" 
+                    formControlName="room" placeholder="Room"
+                    [ngClass]="{'error': isInvalid('room')}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                    </div>
+                    <input type="number" id="students_enrolled" name="students_enrolled" class="form-control" 
+                    formControlName="students_enrolled" placeholder="Students Enrolled"
+                    [ngClass]="{'error': isInvalid('students_enrolled')}">
+                  </div>
+                </div>
+                <div class="form-group form-actions">
+                </div>
+                <span *ngIf="isIncomplete()">
+                  Complete All Fields.
+                  </span>
+                  <button *ngIf="!isIncomplete()" type="submit" 
+                  class="btn btn-sm btn-success">Submit
+                  </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+  
+  </div>
+
+  </ng-container>
+  
+  <ng-template #loggedOut>
+    <div *ngIf="exists == false" class="alert alert-danger">
+      <strong>Attention!</strong> You must be logged in to access this application.
+    </div>
+  </ng-template> 
+
+</div>
+  

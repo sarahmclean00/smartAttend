@@ -1,0 +1,102 @@
+<app-header
+  [navbarBrandRouterLink]="['/dashboard']"
+  [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 120, height: 34, alt: 'SmartAttendance Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'SmartAttendance Logo'}"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="'lg'">
+  
+  <!-- *ngIf = "authService.user$ | async as user;" -->
+
+  <ul class="nav navbar-nav ml-auto">
+    <ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+    <li class="nav-item d-md-down-none mx-0 px-0">
+      <a class="dropdown-item" (click) = "authService.logout()" style="cursor: pointer"><i class="fa fa-lock"></i> Logout</a>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right" *ngIf = "authService.user$ | async as user;">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <img src="{{user.picture}}" class="img-avatar"/>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>Account Settings</strong></div>
+        <a class="dropdown-item" href="/#/profile"><i class="fa fa-user"></i> Profile</a>
+        <div class="divider"></div>
+      </div>
+    </li>
+    </ng-container>
+
+    <ng-template #loggedOut>
+    <li class="nav-item d-md-down-none mx-0 px-0">
+      <a class="dropdown-item" (click) = "authService.loginWithRedirect()" style="cursor: pointer"><i class="fa fa-unlock-alt"></i> Login</a>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <img src="../../../assets/img/avatar/profile-icon (2).png" class="img-avatar"/>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <div class="dropdown-header text-center"><strong>Account Settings</strong></div>
+        <a class="dropdown-item" href="/#/profile"><i class="fa fa-user"></i> Profile</a>
+        <div class="divider"></div>
+      </div>
+    </li>
+    </ng-template> 
+  </ul>
+</app-header>
+
+<div class="app-body">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <!-- breaking change 'cui-breadcrumb' -->
+    <cui-breadcrumb>
+      <!-- Breadcrumb Menu-->
+      <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        </div>
+      </li>
+    </cui-breadcrumb>
+
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+  <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">
+    <tabset>
+      <tab>
+        <ng-template tabHeading><i class="icon-bell"></i></ng-template>
+      
+        <ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOutSidebar">
+        <div class="list-group list-group-accent">
+          <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
+            Your Upcoming Modules
+          </div>
+          <div class="list-group-item list-group-item-accent-success list-group-item-divider" *ngFor = "let module of  future_saved_modules_list | async">
+            <div style="font-size: 12px;"><strong>{{module.module_name}}</strong>
+            </div>
+            <small class="text-muted mr-3">
+              <i class="icon-calendar"></i>&nbsp;&nbsp;{{module.date}} | Room: {{module.room}} </small>
+          </div>
+        </div>
+        </ng-container>
+
+        <ng-template #loggedOutSidebar>
+          <div class="list-group list-group-accent">
+            <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Your Upcoming Modules</div>
+            <div class="mx-2">
+              <p>Sign in to View Upcoming Modules</p>
+            </div>
+          </div>
+        </ng-template>
+
+      </tab>
+    </tabset>
+  </app-aside>
+</div>
+<app-footer>
+  <span><a href="#">SmartAttend</a></span>
+  <span class="ml-auto"><a>Sarah McLean</a></span>
+</app-footer>

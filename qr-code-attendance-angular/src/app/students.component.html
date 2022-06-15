@@ -1,0 +1,79 @@
+<div class="animated fadeIn">
+
+<ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+
+<div *ngIf="exists == false" class="alert alert-danger">
+  <strong>Note!</strong> Please complete your profile details <a href="/#/profile"><strong>here</strong> </a>.
+</div>
+
+<div *ngIf="exists == true">
+  
+  <div *ngIf = "authService.user$ | async as user">
+
+    <div class="admin" *ngIf = "userDetails.access === 'Admin'">
+      <!--/.row-->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Full Student Records
+            </div>
+            <div class="card-body">
+              <table class="table table-sm">
+                <thead style="font-size: 12px;">
+                  <tr>
+                    <th>ID Number</th>
+                    <th>Name &nbsp;<i class="fa fa-arrow-down" (click)="usersNameDescend()" style="cursor: pointer;"></i> <i class="fa fa-arrow-up" (click)="usersNameAscend()" style="cursor: pointer;"></i></th>
+                    <th>Email</th>
+                    <th>Course Code</th>
+                    <th>Course Year &nbsp;<i class="fa fa-arrow-down" (click)="usersCourseYearDescend()" style="cursor: pointer;"></i> <i class="fa fa-arrow-up" (click)="usersCourseYearAscend()" style="cursor: pointer;"></i></th>
+                    <th>Average Attendance</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let student of student_list | async" style="font-size: 12px;">
+                  <tr>
+                    <td>{{student.id_num}}</td>
+                    <td>{{student.name}}</td>
+                    <td>{{student.email}}</td>
+                    <td>{{student.course_code}}</td>
+                    <td>{{student.course_year}}</td>
+                    <td>{{student.attendance_percentage}}%</td>
+                    <td>
+                      <button type="button" class="btn btn-info py-0 px-2 text-white" [routerLink]="['/students', student._id]">
+                        <i class="fa fa-pencil"></i> 
+                      </button>
+                      <button type="button" class="btn btn-danger py-0 px-2" (click)="deleteUser(student._id)">
+                        <i class="fa fa-trash"></i> 
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="student" *ngIf = "userDetails.access === 'Student'">
+      <div class="alert alert-danger">
+        <strong>Error!</strong> You do not have permission to access this section.
+      </div>
+    </div>
+
+  </div>
+  
+</div>
+  
+</ng-container>
+  
+<ng-template #loggedOut>
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Attention!</strong> You must be logged in to access this application.
+  </div>
+</ng-template> 
+
+</div>
+   

@@ -1,0 +1,334 @@
+<div class="animated fadeIn">
+
+<ng-container *ngIf = "authService.isAuthenticated$ | async; else loggedOut">
+
+<div *ngIf = "authService.user$ | async as user">
+
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Note!</strong> Please complete your profile details <a href="/#/profile"><strong>here</strong> </a>.
+  </div>
+    
+<div class="admin" *ngIf = "userDetails.access === 'Admin'">
+
+  <div class="row">
+    <div class="col-sm-12">
+    <button class="btn btn-primary shadow-sm text-end float-right" (click)="refresh()">
+    <i class="fa fa-refresh"></i>
+    </button>
+    <h3 class="py-2">Dashboard</h3>
+    </div>
+  </div>
+
+
+    <div class="row">
+    <div class="col-sm-12 col-lg-6">
+        <div class="card flex-fill dashboard border-dashboard">
+          <div class="card-body p-0 d-flex flex-fill my-2">
+            <div class="row g-0 w-100">
+              <div class="col-7">
+                <div class="illustration-text p-3 m-1 text-primary">
+                  <h4 class="illustration-text font-size: 12px">Welcome Back, {{userDetails.name}}!</h4>
+                  <p class="mb-0 font-size: 9px">SmartAttend Dashboard</p>
+                </div>
+              </div>
+              <div class="col-5 align-self-end text-end">
+                <img src="..\..\assets\img\customer-support.png" alt="Customer Support" 
+                class="img-fluid illustration-img" style="height: 125px; width: 200px;">
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-6">
+      <div class="card flex-fill border-white">
+        <div class="card-body p-0 d-flex flex-fill my-2">
+          <div class="row g-0 w-100">
+            <div class="col-7">
+              <div class="illustration-text p-3 m-1 text-primary">
+                <h4 class="illustration-text font-size: 12px">Today</h4>
+                <h4 class="illustration-text font-size: 12px">{{currentDate | date:'yyyy-MM-dd'}}</h4>
+                <p class="mb-0 font-size: 9px">{{userDetails.access}} Access</p>
+              </div>
+            </div>
+            <div class="col-5 align-self-end text-end">
+              <img src="..\..\assets\img\calendar.png" alt="Customer Support" 
+              class="img-fluid illustration-img" style="height: 100px; width: 250px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-12" *ngIf = "authService.user$ | async as user">
+      <div class="card border-white">
+        <div class="card-body p-0 clearfix align-items-center text-center mb-4">
+          <div class="h4 text-primary font-5xl my-4">{{userDetails.average_attendance}}%</div>
+          <div class="text-primary text-uppercase my-2 align-items-center text-center" style="font-size: 16px;">Your Average Module Attendance</div>
+          <div class="progress progress-primary progress-xs my-3 mx-4">
+            <div class="progress-bar bg-primary w-50" role="progressbar"
+            aria-valuenow="100" 
+            aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted mb-4" style="font-size: 15px;">{{userDetails.name}} | {{userDetails.id_num}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Your Future Module Sessions</h4><br>
+  <div class="row">
+    <div class="col-sm-12 col-lg-4" *ngFor = "let module of  future_saved_modules_list | async">
+      <div class="card text-white bg-primary border-primary">
+        <div class="card-body p-0 clearfix my-2">
+          <div class="btn-group text-white float-right my-2 mr-2">
+            <button type="button" class="btn btn-transparent">
+              <i class="icon-settings" [routerLink]="['/modules', module._id]"></i>
+            </button>
+          </div>
+          <i class="fa fa-bar-chart bg-primary text-muted p-4 font-5xl my-3 float-left"></i>
+          <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{module.date}} </div>
+          <div class="progress progress-white progress-xs mb-2 mr-4">
+            <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" 
+            aria-valuenow="{{module.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted" style="font-size: 12px;">{{module.code}} | {{module.module_name}}</small>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <h4>Your Recent Sessions</h4><br>
+  <div class="row">
+    <div class="col-sm-12 col-lg-6" *ngFor = "let savedmodule of saved_modules_list | async">
+      <div class="card text-white bg-info border-info">
+        <div class="card-body p-0 clearfix">
+          <div class="btn-group text-white float-right my-2 mr-2">
+            <button type="button" class="btn btn-transparent">
+              <i class="icon-settings" [routerLink]="['/reports', savedmodule._id]"></i>
+            </button>
+          </div>
+          <i class="fa fa-bar-chart bg-info text-muted p-4 font-5xl my-3 float-left"></i>
+          <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{savedmodule.date}} </div>
+          <div class="text-white text-uppercase mb-2" style="font-size: 12px;">Date Held</div>
+          <div class="progress progress-white progress-xs mb-2 mr-4">
+            <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" aria-valuenow="{{savedmodule.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted" style="font-size: 12px;">{{savedmodule.code}} | {{savedmodule.module_name}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Summary Report
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Students</th>
+                <th>Attended</th>
+                <th>Attendance Percentage</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody *ngFor = "let savedmodule of saved_modules_list | async">
+              <tr>
+                <td>{{savedmodule.module_name}}</td>
+                <td>{{savedmodule.code}}</td>
+                <td>{{savedmodule.date}}</td>
+                <td>{{savedmodule.time}}</td>
+                <td>{{savedmodule.students_enrolled}}</td>
+                <td>{{savedmodule.attendance_count}}</td>
+                <td>{{savedmodule.attendance_percentage}} %</td>
+                <td>
+                  <span class="badge badge-success py-2 px-2 align-items-center">Complete</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+<div class="student" *ngIf = "userDetails.access === 'Student'">
+
+  <div class="row">
+    <div class="col-sm-12">
+    <button class="btn btn-primary shadow-sm text-end float-right" (click)="refresh()">
+    <i class="fa fa-refresh"></i>
+    </button>
+    <h3 class="py-2">Dashboard</h3>
+    </div>
+  </div>
+
+
+    <div class="row">
+    <div class="col-sm-12 col-lg-6">
+        <div class="card flex-fill dashboard border-dashboard">
+          <div class="card-body p-0 d-flex flex-fill my-2">
+            <div class="row g-0 w-100">
+              <div class="col-7">
+                <div class="illustration-text p-3 m-1 text-primary">
+                  <h4 class="illustration-text font-size: 12px">Hello,</h4>
+                  <h4 class="illustration-text font-size: 12px">{{userDetails.name}}!</h4>
+                  <p class="mb-0 font-size: 9px">Dashboard</p>
+                </div>
+              </div>
+              <div class="col-5 align-self-end text-end">
+                <img src="..\..\assets\img\customer-support.png" alt="Customer Support" 
+                class="img-fluid illustration-img" style="height: 125px; width: 200px;">
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-6">
+      <div class="card flex-fill border-white">
+        <div class="card-body p-0 d-flex flex-fill my-2">
+          <div class="row g-0 w-100">
+            <div class="col-7">
+              <div class="illustration-text p-3 m-1 text-primary">
+                <h4 class="illustration-text font-size: 12px">Today</h4>
+                <h4 class="illustration-text font-size: 12px">{{currentDate | date:'yyyy-MM-dd'}}</h4>
+                <p class="mb-0 font-size: 9px">{{userDetails.access}} Access</p>
+              </div>
+            </div>
+            <div class="col-5 align-self-end text-end">
+              <img src="..\..\assets\img\calendar.png" alt="Customer Support" 
+              class="img-fluid illustration-img" style="height: 100px; width: 250px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-12" *ngIf = "authService.user$ | async as user">
+      <div class="card border-white">
+        <div class="card-body p-0 clearfix align-items-center text-center mb-4">
+          <div class="h4 text-primary font-5xl my-4">{{userDetails.attendance_percentage}}%</div>
+          <div class="text-primary text-uppercase my-2 align-items-center text-center" style="font-size: 16px;">Your Live Attendance</div>
+          <div class="progress progress-primary progress-xs my-3 mx-4">
+            <div class="progress-bar bg-primary w-50" role="progressbar"
+            aria-valuenow="100" 
+            aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted mb-4" style="font-size: 15px;">{{userDetails.name}} | {{userDetails.id_num}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Your Future Module Sessions</h4><br>
+  <div class="row">
+    <div class="col-sm-12 col-lg-4" *ngFor = "let module of  future_saved_modules_list | async">
+      <div class="card text-white bg-primary border-primary">
+        <div class="card-body p-0 clearfix my-2">
+          <div class="btn-group text-white float-right my-2 mr-2">
+            <button type="button" class="btn btn-transparent">
+              <i class="icon-settings" [routerLink]="['/modules', module._id]"></i>
+            </button>
+          </div>
+          <i class="fa fa-bar-chart bg-primary text-muted p-4 font-5xl my-3 float-left"></i>
+          <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{module.date}} </div>
+          <div class="progress progress-white progress-xs mb-2 mr-4">
+            <div class="progress-bar bg-white" role="progressbar" style="width: 75%;" 
+            aria-valuenow="{{module.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted" style="font-size: 12px;">{{module.code}} | {{module.module_name}}</small>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <h4>Your Recent Sessions</h4><br>
+  <div class="row">
+    <div class="col-sm-12 col-lg-6" *ngFor = "let attendedmodule of attended_modules_list | async">
+      <div class="card text-white bg-info border-info">
+        <div class="card-body p-0 clearfix">
+          <div class="btn-group text-white float-right my-2 mr-2">
+            <button type="button" class="btn btn-transparent">
+              <i class="icon-settings" [routerLink]="['/modules', attendedmodule._id]"></i>
+            </button>
+          </div>
+          <i class="fa fa-bar-chart bg-info text-muted p-4 font-5xl my-3 float-left"></i>
+          <div class="h2 text-white mb-2 pt-3" style="font-size: 19px;">{{attendedmodule.date}} </div>
+          <div class="text-white text-uppercase mb-2" style="font-size: 12px;">Date Attended</div>
+          <div class="progress progress-white progress-xs mb-2 mr-4">
+            <div class="progress-bar bg-white" role="progressbar" style="width: 100%;" aria-valuenow="{{attendedmodule.attendance_count}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <small class="text-muted" style="font-size: 12px;">{{attendedmodule.code}} | {{attendedmodule.module_name}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Summary Report
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th class="mx-0 px-0">School</th>
+                <th class="mx-0 px-0">Name</th>
+                <th>Attendance</th>
+                <th>Code</th>
+                <th>Room</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody *ngFor = "let attendedmodule of attended_modules_list | async">
+              <tr>
+                <td class="mx-0 px-0">{{attendedmodule.school}}</td>
+                <td class="mx-0 px-0">{{attendedmodule.module_name}}</td>
+                <td>{{attendedmodule.attendance_percentage}} %</td>
+                <td>{{attendedmodule.code}}</td>
+                <td>{{attendedmodule.room}}</td>
+                <td>{{attendedmodule.date}}</td>
+                <td>{{attendedmodule.time}}</td>
+                <td>
+                  <span class="badge badge-success py-2 px-2 align-items-center">Attended</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</ng-container>
+
+<ng-template #loggedOut>
+  <div *ngIf="exists == false" class="alert alert-danger">
+    <strong>Attention!</strong> You must be logged in to access this application.
+  </div>
+</ng-template> 
+  
+</div>

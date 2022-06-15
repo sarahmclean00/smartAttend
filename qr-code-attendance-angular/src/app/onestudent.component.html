@@ -1,0 +1,156 @@
+<div class="animated fadeIn" *ngFor="let student of student | async">
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <div class="card">
+            <div class="card-body p-0 clearfix">
+              <div class="h4 text-success p-3 font-5xl my-2 float-left">{{student.attendance_percentage}}%</div>
+              <div class="text-success text-uppercase mt-3 mb-2" style="font-size: 16px;">Student's Attendance</div>
+              <div class="progress progress-success progress-xs mb-2 mr-4">
+                <div class="progress-bar bg-success" role="progressbar" 
+                style="width: var('student.attendance_percentage');" aria-valuenow="{{student.attendance_percentage}}" 
+                aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <small class="text-muted" style="font-size: 12px;">{{student.id_num}} | {{student.name}}</small>
+            </div>
+          </div>
+        </div>
+    </div>
+
+     <!--/.row-->
+   <div class="row">
+        <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+            <i class="fa fa-align-justify"></i> Full Student Records
+            </div>
+            <div class="card-body">
+            <table class="table table-sm">
+                <thead style="font-size: 12px;">
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Room</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Sign In Time</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let module of student_reports | async" style="font-size: 12px;">
+                <tr>
+                    <td>{{module.module_name}}</td>
+                    <td>{{module.code}}</td>
+                    <td>{{module.room}}</td>
+                    <td>{{module.date}}</td>
+                    <td>{{module.time}}</td>
+                    <td *ngFor="let attendance of student_attendance | async">{{attendance.time_in}}</td>
+                    <td>
+                    <button type="button" class="btn btn-danger py-0 px-2" (click)="deleteAttendanceUser(student.id_num)">
+                        <i class="fa fa-trash"></i> 
+                    </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-edit"></i>Edit Student Details
+              <div class="card-header-actions">
+                <button type="button" class="card-header-action btn btn-link btn-minimize"(click)="toggleCollapse()">
+                  <i class={{iconCollapse}}></i>
+                </button>
+              </div>
+            </div>
+            <div (collapsed)="collapsed($event)"
+                  (expanded)="expanded($event)"
+                  [collapse]="isCollapsed"
+                    class="card-body">
+                <form [formGroup]="editStudentForm" (ngSubmit)="onSubmit()">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 125px;"><i class="fa fa-user"></i>&nbsp;&nbsp;Name</span>
+                            </div>
+                            <input type="text" id="name" name="name" class="form-control" 
+                            formControlName="name"  readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 125px;"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Email</span>
+                            </div>
+                            <input type="email" id="email" name="email" class="form-control" 
+                            formControlName="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 125px;"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Course Year</span>
+                            </div>
+                            <select id="course_year" name="course_year" class="form-control" formControlName="course_year" >
+                                <option value="0">Please Select</option>
+                                <option value="Year 1">Year 1</option>
+                                <option value="Year 2">Year 2</option>
+                                <option value="Year 3">Year 3</option>
+                                <option value="Year 4">Year 4</option>
+                                <option value="Year 5">Year 5</option>
+                                <option value="Year 6">Year 6</option>
+                            </select>            
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 125px;"><i class="fa fa-list"></i>&nbsp;&nbsp;Course Code</span>
+                            </div>
+                            <select id="course_code" name="course_code" class="form-control" formControlName="course_code" >
+                                <option value="0">Please Select</option>
+                                <option value="V273">V273</option>
+                                <option value="C437">C437</option>
+                                <option value="U808">U808</option>
+                                <option value="J204">J204</option>
+                                <option value="W756">W756</option>
+                                <option value="N341">N341</option>
+                                <option value="E120">E120</option>
+                                <option value="C730">C730</option>
+                                <option value="B909">B909</option>
+                                <option value="Z382">Z382</option>
+                                <option value="C249">C249</option>
+                                <option value="V438">V438</option>
+                                <option value="K232">K232</option>
+                                <option value="W270">W270</option>
+                                <option value="R118">R118</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width: 125px;"><i class="fa fa-lock"></i>&nbsp;&nbsp;ID Number</span>
+                            </div>
+                            <textarea id="id_num" name="id_num" class="form-control" rows="1" 
+                            formControlName="id_num" readonly>
+                            </textarea> 
+                            </div>
+                        </div>
+                        <div class="form-group form-actions">
+                        </div>
+                        <button type="submit" class="btn btn-primary text-white" style="width: 125px;">Submit</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

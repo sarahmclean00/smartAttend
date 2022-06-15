@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+<div class="row">
+  <div class="col-sm-12 col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-chart"></i> Attendance Session
+      </div>
+      <div class="card-body">
+        <img *ngFor="let module of module | async" id="scanner" src="http://localhost:5000/video_feed/{{module._id}}" width="100%">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="row">
+    <div class="col-sm-12 mt-2 mb-4">
+      <button class="btn btn-success"(click)="getAttendanceTable()">
+          Run Attendance Report
+      </button>
+    </div>
+  </div>
+
+     <!--/.row-->
+     <div class="row" *ngFor="let module of module | async">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Live Attendance Report
+          </div>
+          <div class="card-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>B Number</th>
+                  <th>Module Date</th>
+                  <th>Time In</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let student of attendance | async">
+                <tr>
+                  <td>{{student.b_num}}</td>
+                  <td>{{module.date}}</td>
+                  <td>{{student.time_in}}</td>
+                  <td>
+                    <span class="badge badge-success">Active</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
